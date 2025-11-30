@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Python для начинающих - ПСБ Образование</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #833AB4;
+      background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(252, 176, 69, 1) 100%);
+      color: white;
+      padding: 15px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+
+    .header-content {
+      width: 90%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Бургер-меню для мобильных */
+    .burger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .burger div {
+      width: 30px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+      transition: 0.3s;
+    }
+
+    /* Горизонтальное меню для ПК */
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .desktop-nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      border-radius: 4px;
+    }
+
+    .desktop-nav a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .desktop-dropdown {
+      position: relative;
+    }
+
+    .desktop-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #833AB4;
+      background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(252, 176, 69, 1) 100%);
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      border-radius: 4px;
+      z-index: 1000;
+      padding: 10px 0;
+    }
+
+    .desktop-dropdown:hover .desktop-dropdown-content {
+      display: block;
+    }
+
+    .desktop-dropdown-content a {
+      display: block;
+      padding: 10px 20px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .desktop-dropdown-content a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Боковое меню для мобильных */
+    nav {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: auto;
+      height: 100%;
+      background: #833AB4;
+      background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(252, 176, 69, 1) 100%);
+      color: white;
+      transition: right 0.8s;
+      padding-top: 60px;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    nav.active {
+      right: 0;
+    }
+
+    nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      font-size: 18px;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+
+    nav a:hover {
+      background-color: #7918644f;
+    }
+
+    .main-content {
+      padding: 30px;
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    .course-layout {
+      display: flex;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .modules-sidebar {
+      flex: 0 0 30%;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+
+    .course-content {
+      flex: 0 0 70%;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .course-header {
+      background: linear-gradient(135deg, #b6c3d1, #002c6e);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      width: 1170px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-header:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transform: translate(30%, -30%);
+    }
+
+    .course-header:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 150px;
+      height: 150px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transform: translate(-30%, 30%);
+    }
+
+    .course-header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .course-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .course-header p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #fd802d;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #004494;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid #fd802d;
+      color: #fd802d;
+    }
+
+    .btn-outline:hover {
+      background-color: #fd802d;
+      color: white;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #004494;
+      border-bottom: 2px solid #004494;
+      padding-bottom: 10px;
+    }
+
+    .module-title {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #004494;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .lesson-list {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .lesson-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.2s;
+      cursor: pointer;
+    }
+
+    .lesson-item:hover {
+      background-color: #f9fbff;
+    }
+
+    .lesson-item.active {
+      background-color: #e6f0ff;
+      border-left: 3px solid #004494;
+    }
+
+    .lesson-item.completed .lesson-icon {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .lesson-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+      border-radius: 50%;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .lesson-item.active .lesson-icon {
+      background-color: #004494;
+      color: white;
+    }
+
+    .lesson-title {
+      flex: 1;
+    }
+
+    .lesson-duration {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #004494;
+      width: 0%;
+      transition: width 0.5s;
+    }
+
+    .lesson-content {
+      padding: 20px 0;
+    }
+
+    .lesson-video {
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 = 9/16 = 0.5625 → 56.25% */
+      background: #f0f0f0;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lesson-video iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .video-author {
+      text-align: center;
+      margin: 15px 0 25px 0;
+      color: #666;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+
+    .lesson-text {
+      margin-bottom: 30px;
+      line-height: 1.7;
+    }
+
+    .lesson-text h3 {
+      margin: 20px 0 10px;
+      color: #004494;
+    }
+
+    .lesson-text p {
+      margin-bottom: 15px;
+    }
+
+    .lesson-text ul, .lesson-text ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .lesson-text code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    footer {
+      background-color: #383b3f;
+      color: white;
+      padding: 30px 0;
+      margin-top: 50px;
+      width: 100%;
+    }
+
+    .footer-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 0 20px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+
+    .footer-section p, .footer-section a {
+      color: #c2d4f0;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #c2d4f0;
+      width: 100%;
+    }
+
+    img {
+      max-width: 100%; 
+      height: auto; 
+      display: block; 
+      width: 87px;
+    }
+
+    .dropdown-btn {
+      display: block;
+      background: none;
+      color: white;
+      width: 100%;
+      text-align: left;
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      outline: none;
+    }
+
+    .dropdown-content {
+      display: none;
+      max-height: 0;
+      overflow: hidden;
+      text-align: center; 
+    }
+
+    .dropdown-content a {
+      padding: 12px 15px;
+      display: block;
+      color: #ffffffcc;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.2s;
+      text-align: center; 
+      margin: 0 auto;
+      width: fit-content;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #79186480;
+      color: white;
+    }
+
+    .dropdown-content.active {
+      display: block;
+      max-height: 200px; 
+      overflow: hidden;
+    }
+
+    /* Стили для формы ответов */
+    .answer-section {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f9fbff;
+      border-radius: 8px;
+      border-left: 4px solid #004494;
+    }
+
+    .answer-section h3 {
+      color: #004494;
+      margin-bottom: 15px;
+    }
+
+    .answer-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-control {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #004494;
+      box-shadow: 0 0 0 2px rgba(0, 68, 148, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .response-message {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .response-message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+
+    .response-message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 1200px) {
+      .header-content,
+      .main-content,
+      .footer-container {
+        width: 95%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .course-layout {
+        flex-direction: column;
+      }
+      
+      .modules-sidebar {
+        flex: none;
+        width: 100%;
+      }
+      
+      .course-content {
+        flex: none;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content,
+      .main-content,
+      .footer-container {
+        width: 95%;
+      }
+      
+      .course-header h1 {
+        font-size: 2rem;
+      }
+      
+      .course-header p {
+        font-size: 1rem;
+      }
+      
+      .lesson-video {
+        height: 250px;
+      }
+      
+      /* Показываем бургер-меню на мобильных */
+      .burger {
+        display: flex;
+      }
+      
+      /* Скрываем горизонтальное меню на мобильных */
+      .desktop-nav {
+        display: none;
+      }
+    }
+
+    @media (min-width: 769px) {
+      /* Скрываем боковое меню на ПК */
+      nav {
+        display: none;
+      }
+    }
+    
+    .footer-section {
+        text-align: center;
+    }
+    
+    .module-progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .module-status {
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo"><img src="icons/psb-logo-eng.png" alt="">&nbsp;&nbsp;ОБРАЗОВАНИЕ</div>
+      
+      <!-- Горизонтальное меню для ПК -->
+      <div class="desktop-nav">
+        <div class="desktop-dropdown">
+          <a href="#">Все курсы ▼</a>
+          <div class="desktop-dropdown-content">
+            <a href="index.html">Главная страница</a>
+            <a href="course-page.html">Python для начинающих</a>
+          </div>
+        </div>
+        
+        <div class="desktop-dropdown">
+          <a href="#">Пройти тесты ▼</a>
+          <div class="desktop-dropdown-content">
+            <a href="index.html">Главная страница</a>
+            <a href="test-page.html">Python для начинающих</a>
+          </div>
+        </div>
+        
+        <a href="#">Контакты</a>
+      </div>
+      
+      <!-- Бургер-меню для мобильных -->
+      <div class="burger" id="burger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Боковое меню для мобильных -->
+  <nav id="sideNav">
+    <a href="#" class="dropdown-btn">Все курсы ▼</a>
+    <div class="dropdown-content">
+        <a href="index.html">Главная страница</a>
+        <a href="course-page.html">Python для начинающих</a>
+    </div>
+    <a href="#" class="dropdown-btn">Пройти тесты ▼</a>
+    <div class="dropdown-content">
+        <a href="index.html">Главная страница</a>
+        <a href="test-page.html">Python для начинающих</a>
+    </div>
+    <a href="#">Справочные материалы</a>
+    <a href="#">О нас</a>
+    <a href="#">Контакты</a>
+  </nav>
+
+  <section>
+    <div class="main-content">
+      <div class="course-header">
+        <div class="course-header-content">
+          <h1>Python для начинающих</h1>
+          <p>Освойте основы программирования на одном из самых популярных языков. От переменных до ООП.</p>
+          <div style="margin-top: 20px;">
+            <a href="python_test.html" class="btn">Пройти тест</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-layout">
+        <!-- Левая панель с модулями (30%) -->
+        <div class="modules-sidebar">
+          <h2 class="section-title">Содержание курса</h2>
+          
+          <div class="module">
+            <div class="module-progress">
+              <h3 class="module-title">Модуль 1: Основы Python</h3>
+              <span class="module-status" id="module1-status">0/5 уроков</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="module1-progress" style="width: 0%"></div>
+            </div>
+            <ul class="lesson-list">
+              <li class="lesson-item active" data-lesson="1">
+                <div class="lesson-icon">1</div>
+                <div class="lesson-title">Введение в Python</div>
+                <div class="lesson-duration">15 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="2">
+                <div class="lesson-icon">2</div>
+                <div class="lesson-title">Переменные и типы данных</div>
+                <div class="lesson-duration">20 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="3">
+                <div class="lesson-icon">3</div>
+                <div class="lesson-title">Операторы и выражения</div>
+                <div class="lesson-duration">25 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="4">
+                <div class="lesson-icon">4</div>
+                <div class="lesson-title">Ввод и вывод данных</div>
+                <div class="lesson-duration">18 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="5">
+                <div class="lesson-icon">5</div>
+                <div class="lesson-title">Практическое задание</div>
+                <div class="lesson-duration">30 мин</div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="module">
+            <div class="module-progress">
+              <h3 class="module-title">Модуль 2: Управляющие конструкции</h3>
+              <span class="module-status" id="module2-status">0/4 уроков</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="module2-progress" style="width: 0%"></div>
+            </div>
+            <ul class="lesson-list">
+              <li class="lesson-item" data-lesson="6">
+                <div class="lesson-icon">1</div>
+                <div class="lesson-title">Условные операторы</div>
+                <div class="lesson-duration">22 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="7">
+                <div class="lesson-icon">2</div>
+                <div class="lesson-title">Циклы for и while</div>
+                <div class="lesson-duration">28 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="8">
+                <div class="lesson-icon">3</div>
+                <div class="lesson-title">Операторы break и continue</div>
+                <div class="lesson-duration">15 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="9">
+                <div class="lesson-icon">4</div>
+                <div class="lesson-title">Практическое задание</div>
+                <div class="lesson-duration">35 мин</div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="module">
+            <div class="module-progress">
+              <h3 class="module-title">Модуль 3: Функции</h3>
+              <span class="module-status" id="module3-status">0/5 уроков</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="module3-progress" style="width: 0%"></div>
+            </div>
+            <ul class="lesson-list">
+              <li class="lesson-item" data-lesson="10">
+                <div class="lesson-icon">1</div>
+                <div class="lesson-title">Определение функций</div>
+                <div class="lesson-duration">20 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="11">
+                <div class="lesson-icon">2</div>
+                <div class="lesson-title">Аргументы функций</div>
+                <div class="lesson-duration">25 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="12">
+                <div class="lesson-icon">3</div>
+                <div class="lesson-title">Возврат значений</div>
+                <div class="lesson-duration">18 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="13">
+                <div class="lesson-icon">4</div>
+                <div class="lesson-title">Область видимости</div>
+                <div class="lesson-duration">22 мин</div>
+              </li>
+              <li class="lesson-item" data-lesson="14">
+                <div class="lesson-icon">5</div>
+                <div class="lesson-title">Практическое задание</div>
+                <div class="lesson-duration">40 мин</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Основной контент урока (70%) -->
+        <div class="course-content">
+          <div class="card">
+            <h2 class="section-title">Введение в Python</h2>
+            
+            <div class="lesson-video">
+                <iframe 
+                    src="https://rutube.ru/play/embed/e14f344592fed5ab617689cda21cba66" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    title="Введение в Python - Школа Программирования / Itproger">
+                </iframe>
+            </div>
+
+            <div class="video-author">
+                📹 Видео предоставлено: <strong>Школа Программирования / Itproger</strong>
+            </div>
+            
+            <div class="lesson-text">
+              <p>Python — это высокоуровневый язык программирования, который отличается простым и понятным синтаксисом. Он широко используется в веб-разработке, анализе данных, искусственном интеллекте и автоматизации.</p>
+              
+              <h3>Преимущества Python</h3>
+              <ul>
+                <li>Простой и читаемый синтаксис</li>
+                <li>Большое сообщество и обширная документация</li>
+                <li>Кроссплатформенность</li>
+                <li>Богатая экосистема библиотек</li>
+              </ul>
+              
+              <h3>Первый код на Python</h3>
+              <p>Традиционно первая программа, которую пишут на новом языке программирования, выводит на экран фразу "Hello, World!". В Python это делается очень просто:</p>
+              
+              <div class="code-block">
+print("Hello, World!")
+              </div>
+              
+              <p>Эта строка кода выведет текст <code>Hello, World!</code> в консоль.</p>
+              
+              <h3>Комментарии в Python</h3>
+              <p>Комментарии используются для пояснения кода и игнорируются интерпретатором Python. Однострочные комментарии начинаются с символа <code>#</code>:</p>
+              
+              <div class="code-block">
+# Это комментарий
+print("Hello, World!")  # Этот комментарий идет после кода
+              </div>
+              
+              <!-- Секция для ввода ответов -->
+              <div class="answer-section">
+                <h3>Практическое задание</h3>
+                <p>Напишите программу на Python, которая выводит ваше имя и возраст. Используйте функцию <code>print()</code> и комментарии для пояснения кода.</p>
+                
+                <form id="answer-form" class="answer-form">
+                  <div class="form-group">
+                    <label for="user-name">Ваше имя:</label>
+                    <input type="text" id="user-name" class="form-control" placeholder="Введите ваше имя" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="user-code">Ваш код на Python:</label>
+                    <textarea id="user-code" class="form-control" placeholder="Напишите здесь ваш код на Python..." required></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="user-explanation">Пояснение к коду (необязательно):</label>
+                    <textarea id="user-explanation" class="form-control" placeholder="Опишите, как работает ваш код..."></textarea>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="answer-type">📁 Формат ответа:</label>
+                      <select id="answer-type" class="form-control">
+                          <option value="code">Только код Python</option>
+                          <option value="file">Только файл (по ссылке)</option>
+                          <option value="both">Код + файл</option>
+                      </select>
+                  </div>
+
+                  <div class="form-group" id="file-link-group" style="display: none;">
+                      <label for="file-link">📎 Ссылка на файл:</label>
+                      <input type="url" id="file-link" class="form-control" 
+                            placeholder="https://disk.yandex.ru/... или https://drive.google.com/...">
+                      <small class="form-text text-muted">
+                          💡 Можете использовать Google Disk, Yandex Disk или любое другое облачное хранилище
+                      </small>
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="button" id="clear-form" class="btn btn-outline">Очистить</button>
+                    <button type="submit" id="submit-answer" class="btn">Отправить ответ</button>
+                  </div>
+                  
+                  <div id="response-message" class="response-message"></div>
+                </form>
+              </div>
+            </div>
+            
+            <div class="navigation-buttons">
+              <button class="btn btn-outline" id="prev-lesson" disabled>Предыдущий урок</button>
+              <button class="btn" id="next-lesson">Следующий урок</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>ПСБ Образование</h3>
+          <p>Мы предоставляем качественное онлайн-образование, помогая людям развивать навыки и строить успешную карьеру в IT и финансах.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Категории курсов</h3>
+          <a href="#">Программирование</a>
+          <a href="#">Data Science</a>
+          <a href="#">Финансы</a>
+          <a href="#">Бизнес-аналитика</a>
+          <a href="#">Управление</a>
+        </div>
+        <div class="footer-section">
+          <h3>Полезные ссылки</h3>
+          <a href="#">О нас</a>
+          <a href="#">Преподаватели</a>
+          <a href="#">Блог</a>
+          <a href="#">Помощь</a>
+          <a href="#">Контакты</a>
+        </div>
+        <div class="footer-section">
+          <h3>Контакты</h3>
+          <p>Email: info@psb-education.ru</p>
+          <p>Телефон: +7 (800) 123-45-67</p>
+          <p>Адрес: Москва, ул. Образовательная, 15</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 ПСБ Образование. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 🔗 КОНФИГУРАЦИЯ API
+    const API_CONFIG = {
+      baseURL: 'http://localhost:8080', // Ваш бэкенд
+      endpoints: {
+        submitAnswer: '/api/answers/submit' // Эндпоинт для отправки ответов
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    // 🎯 СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+    const lessonState = {
+      completedLessons: new Set(),
+      currentLesson: 1
+    };
+
+    // 🎯 ЭЛЕМЕНТЫ ДОМА
+    const burger = document.getElementById('burger');
+    const sideNav = document.getElementById('sideNav');
+    const dropdownBtn = document.querySelectorAll('.dropdown-btn');
+    const lessonItems = document.querySelectorAll('.lesson-item');
+    const nextLessonBtn = document.getElementById('next-lesson');
+    const prevLessonBtn = document.getElementById('prev-lesson');
+    const answerForm = document.getElementById('answer-form');
+    const clearFormBtn = document.getElementById('clear-form');
+    const responseMessage = document.getElementById('response-message');
+
+    // 🎯 ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+    document.addEventListener('DOMContentLoaded', function() {
+      loadProgressFromStorage(); // 📥 Загружаем прогресс из localStorage
+      updateProgress();          // 📊 Обновляем UI
+    });
+
+    // 🔗 ОСНОВНАЯ ФУНКЦИЯ ДЛЯ ВЫЗОВОВ API
+    async function apiCall(endpoint, method = 'GET', data = null) {
+      const url = API_CONFIG.baseURL + endpoint;
+      const options = {
+        method,
+        headers: API_CONFIG.headers
+      };
+
+      if (data && (method === 'POST' || method === 'PUT')) {
+        options.body = JSON.stringify(data);
+      }
+
+      try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+      } catch (error) {
+        console.error('API call failed:', error);
+        throw error;
+      }
+    }
+
+    // 🔗 ОТПРАВКА ОТВЕТА СТУДЕНТА НА БЭКЕНД
+    async function submitAnswerToBackend(answerData) {
+      try {
+        // 📤 Отправляем только нужные данные
+        const result = await apiCall(API_CONFIG.endpoints.submitAnswer, 'POST', answerData);
+        return result;
+      } catch (error) {
+        console.error('Failed to submit answer to backend:', error);
+        throw error;
+      }
+    }
+
+    // 🎯 ОБРАБОТКА КЛИКОВ ПО УРОКАМ
+    lessonItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const lessonId = parseInt(this.getAttribute('data-lesson'));
+        setActiveLesson(lessonId);
+      });
+    });
+
+    // 🎯 УСТАНОВКА АКТИВНОГО УРОКА
+    function setActiveLesson(lessonId) {
+      lessonItems.forEach(i => i.classList.remove('active'));
+      
+      const activeLesson = document.querySelector(`[data-lesson="${lessonId}"]`);
+      if (activeLesson) {
+        activeLesson.classList.add('active');
+        lessonState.currentLesson = lessonId;
+      }
+      
+      updateNavigationButtons();
+    }
+
+    // 🎯 ОБНОВЛЕНИЕ НАВИГАЦИОННЫХ КНОПОК
+    function updateNavigationButtons() {
+      const totalLessons = lessonItems.length;
+      
+      if (lessonState.currentLesson > 1) {
+        prevLessonBtn.disabled = false;
+        prevLessonBtn.onclick = () => setActiveLesson(lessonState.currentLesson - 1);
+      } else {
+        prevLessonBtn.disabled = true;
+      }
+      
+      if (lessonState.currentLesson < totalLessons) {
+        nextLessonBtn.disabled = false;
+        nextLessonBtn.onclick = () => setActiveLesson(lessonState.currentLesson + 1);
+      } else {
+        nextLessonBtn.disabled = true;
+      }
+    }
+
+    // 🎯 ОБНОВЛЕНИЕ ПРОГРЕССА В UI
+    function updateProgress() {
+      const module1Lessons = Array.from(document.querySelectorAll('[data-lesson="1"], [data-lesson="2"], [data-lesson="3"], [data-lesson="4"], [data-lesson="5"]'));
+      const module2Lessons = Array.from(document.querySelectorAll('[data-lesson="6"], [data-lesson="7"], [data-lesson="8"], [data-lesson="9"]'));
+      const module3Lessons = Array.from(document.querySelectorAll('[data-lesson="10"], [data-lesson="11"], [data-lesson="12"], [data-lesson="13"], [data-lesson="14"]'));
+      
+      const module1Completed = module1Lessons.filter(lesson => lessonState.completedLessons.has(parseInt(lesson.getAttribute('data-lesson')))).length;
+      const module2Completed = module2Lessons.filter(lesson => lessonState.completedLessons.has(parseInt(lesson.getAttribute('data-lesson')))).length;
+      const module3Completed = module3Lessons.filter(lesson => lessonState.completedLessons.has(parseInt(lesson.getAttribute('data-lesson')))).length;
+      
+      document.getElementById('module1-status').textContent = `${module1Completed}/5 уроков`;
+      document.getElementById('module2-status').textContent = `${module2Completed}/4 уроков`;
+      document.getElementById('module3-status').textContent = `${module3Completed}/5 уроков`;
+      
+      document.getElementById('module1-progress').style.width = `${(module1Completed / 5) * 100}%`;
+      document.getElementById('module2-progress').style.width = `${(module2Completed / 4) * 100}%`;
+      document.getElementById('module3-progress').style.width = `${(module3Completed / 5) * 100}%`;
+      
+      lessonItems.forEach(item => {
+        const lessonId = parseInt(item.getAttribute('data-lesson'));
+        if (lessonState.completedLessons.has(lessonId)) {
+          item.classList.add('completed');
+        } else {
+          item.classList.remove('completed');
+        }
+      });
+    }
+
+    // ✅ ОТМЕТКА УРОКА КАК ПРОЙДЕННОГО
+    function markLessonAsCompleted(lessonId) {
+      lessonState.completedLessons.add(lessonId);
+      updateProgress();
+      localStorage.setItem('completedLessons', JSON.stringify(Array.from(lessonState.completedLessons)));
+    }
+
+    // 📥 ЗАГРУЗКА ПРОГРЕССА ИЗ LOCALSTORAGE
+    function loadProgressFromStorage() {
+      const saved = localStorage.getItem('completedLessons');
+      if (saved) {
+        const completed = JSON.parse(saved);
+        lessonState.completedLessons = new Set(completed);
+        updateProgress();
+      }
+    }
+
+    // 🎯 ОБРАБОТКА ФОРМЫ ОТВЕТОВ - ОСНОВНАЯ ЛОГИКА!
+    answerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // 📝 ПОЛУЧАЕМ ВСЕ ПОЛЯ (СТАРЫЕ + НОВЫЕ):
+        const userName = document.getElementById('user-name').value;
+        const userCode = document.getElementById('user-code').value;
+        const userExplanation = document.getElementById('user-explanation').value;
+        const fileLink = document.getElementById('file-link').value;
+        const answerType = document.getElementById('answer-type').value;
+      
+      // ✅ ВАЛИДАЦИЯ
+      if (!userName.trim() || !userCode.trim()) {
+        showResponse('Пожалуйста, заполните все обязательные поля.', 'error');
+        return;
+      }
+      
+      // ⏳ ПОКАЗЫВАЕМ ИНДИКАТОР ЗАГРУЗКИ
+      const submitBtn = document.getElementById('submit-answer');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+      
+      try {
+        // 📦 ПОДГОТАВЛИВАЕМ ДАННЫЕ ДЛЯ ОТПРАВКИ
+        // ⚡ ОТПРАВЛЯЕМ ВСЕ ПОЛЯ:
+        const answerData = {
+            studentName: userName,              // 🏷️ Ваше имя
+            pythonCode: userCode,               // 🐍 Ваш код на Python
+            codeExplanation: userExplanation || '', // 📝 Пояснение к коду
+            fileLink: fileLink || '',           // 📎 Ссылка на файл (НОВОЕ!)
+            answerType: answerType              // 📁 Тип ответа (НОВОЕ!)
+        };
+        
+        console.log('📤 Отправляемые данные:', answerData);
+        
+        // 🔗 ОТПРАВЛЯЕМ НА БЭКЕНД
+        const result = await submitAnswerToBackend(answerData);
+        
+        // ✅ ОТМЕЧАЕМ УРОК КАК ПРОЙДЕННЫЙ
+        markLessonAsCompleted(lessonState.currentLesson);
+        
+        // 🎉 ПОКАЗЫВАЕМ УСПЕШНОЕ СООБЩЕНИЕ
+        showResponse(
+          result.message || '✅ Ваш ответ успешно отправлен! Преподаватель проверит его в ближайшее время.', 
+          'success'
+        );
+        
+        // 🧹 ОЧИЩАЕМ ФОРМУ
+        answerForm.reset();
+        
+      } catch (error) {
+        // ❌ ОБРАБОТКА ОШИБКИ
+        showResponse(
+          '❌ Произошла ошибка при отправке ответа. Пожалуйста, попробуйте еще раз.',
+          'error'
+        );
+        console.error('Submission error:', error);
+      } finally {
+        // 🔄 ВОССТАНАВЛИВАЕМ КНОПКУ
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Отправить ответ';
+      }
+    });
+
+    // 🧹 ОБРАБОТКА КНОПКИ "ОЧИСТИТЬ"
+    clearFormBtn.addEventListener('click', function() {
+      answerForm.reset();
+      responseMessage.style.display = 'none';
+    });
+
+    // 💬 ФУНКЦИЯ ДЛЯ ПОКАЗА СООБЩЕНИЙ
+    function showResponse(message, type) {
+      responseMessage.textContent = message;
+      responseMessage.className = 'response-message ' + type;
+      responseMessage.style.display = 'block';
+      
+      setTimeout(() => {
+        responseMessage.style.display = 'none';
+      }, 5000);
+    }
+
+    // 🍔 НАВИГАЦИОННОЕ МЕНЮ
+    burger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sideNav.classList.toggle('active');
+    });
+
+    document.addEventListener('click', () => {
+      if (sideNav.classList.contains('active')) {
+        sideNav.classList.remove('active');
+      }
+    });
+
+    // 🔽 ВЫПАДАЮЩИЕ СПИСКИ
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-content').forEach(content => {
+        content.classList.remove('active');
+      });
+    }
+
+    dropdownBtn.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const dropdownContent = this.nextElementSibling;
+
+        if (dropdownContent && dropdownContent.classList.contains('dropdown-content')) {
+          dropdownContent.classList.toggle('active');
+        }
+      });
+    });
+
+    document.addEventListener('click', () => {
+      if (sideNav.classList.contains('active')) {
+        sideNav.classList.remove('active');
+        closeAllDropdowns();
+      }
+    });
+
+    sideNav.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // 🔄 ОБНОВЛЯЕМ НАВИГАЦИОННЫЕ КНОПКИ ПРИ ЗАГРУЗКЕ
+    updateNavigationButtons();
+    // 📎 ПЕРЕКЛЮЧЕНИЕ ФОРМАТА ОТВЕТА
+    document.getElementById('answer-type').addEventListener('change', function() {
+        const fileLinkGroup = document.getElementById('file-link-group');
+        const codeField = document.getElementById('user-code');
+        
+        if (this.value === 'file') {
+            // Только файл
+            fileLinkGroup.style.display = 'block';
+            codeField.required = false;
+            codeField.placeholder = 'Необязательно (если ответ только в файле)...';
+        } else if (this.value === 'both') {
+            // Код + файл
+            fileLinkGroup.style.display = 'block';
+            codeField.required = true;
+            codeField.placeholder = 'Напишите здесь ваш код на Python...';
+        } else {
+            // Только код
+            fileLinkGroup.style.display = 'none';
+            codeField.required = true;
+            codeField.placeholder = 'Напишите здесь ваш код на Python...';
+        }
+    });
+</script>
+</body>
+</html>

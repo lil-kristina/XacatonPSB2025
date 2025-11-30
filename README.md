@@ -48,6 +48,7 @@ education-platform/
 -  StudentAnswerService.java # Бизнес-логика ответов
 -  StudentAnswerRepository.java # Доступ к БД
 -  StudentAnswer.java # Модель данных
+- 
 ├── 📁 src/main/resources/
 -  application.properties # Конфигурация БД
 - 📁 static/ # Фронтенд файлы
@@ -55,6 +56,7 @@ education-platform/
 -  python_course.html # Страница курса Python
 -  python_test.html # Тестирование
 - 📁 icons/ # Иконки и логотипы
+- 
 -  pom.xml # Maven зависимости
 
 
